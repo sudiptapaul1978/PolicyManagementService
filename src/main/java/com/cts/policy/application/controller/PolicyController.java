@@ -6,6 +6,8 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,14 +24,11 @@ public class PolicyController {
 	private PolicyService policyService;
 	
 	@CrossOrigin
-	@RequestMapping("/addOrUpdate")
-	public Map<String, Object> createOrUpdatePolicy(
-			@RequestParam String policyNumber,
-			@RequestParam String policyName,
-			@RequestParam String policyDetails) {
+	@PostMapping("/addOrUpdate")
+	public Map<String, Object> createOrUpdatePolicy(@RequestBody Policy policy) {
 		
-		boolean isPolicyUpdated = policyService.addOrUpdate(policyNumber,
-				policyName, policyDetails);
+		boolean isPolicyUpdated = policyService.addOrUpdate(policy.getPolicyNumber(),
+				policy.getPolicyName(), policy.getPolicyDetails());
 
 		Map<String, Object> dataMap = new HashMap<String, Object>();
 		if(isPolicyUpdated) {
